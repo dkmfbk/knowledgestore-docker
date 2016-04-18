@@ -1,0 +1,68 @@
+{
+	"resource":{
+	        "dynamic" : "strict",	        
+		"properties" : {
+			"_all" : {"enabled" : false},
+			"_timestamp" : {"enabled" : false},
+			"<http://dkm.fbk.eu/ontologies/newsreader#uri>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true},
+			"<http://dkm.fbk.eu/ontologies/newsreader#magazine>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true},
+			"<http://dkm.fbk.eu/ontologies/knowledgestore#storedAs>":{
+				"type": "object",
+				"properties":{
+					"ID":{"type":"string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true},
+					"<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true},
+					"<http://www.semanticdesktop.org/ontologies/2007/01/19/nie#mimeType>":{"type":"string", "ignore_malformed" : true},
+					"<http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileLastModified>":{"type": "date", "format": "dateOptionalTime", "ignore_malformed" : true},
+					"<http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName>":{"type": "string", "ignore_malformed" : true},
+					"<http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileSize>":{"type": "integer", "ignore_malformed" : true},
+					"<http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileCreated>":{"type": "date", "format": "dateOptionalTime", "ignore_malformed" : true},
+					"<http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#hasHash>":{
+						"type" : "object",
+						"properties":{
+							"ID":{"type":"string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"} },
+							"<http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#hashAlgorithm>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true},
+							"<http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#hashValue>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true}			
+						}
+					}			
+				}	
+			},
+			"<http://www.w3.org/2000/01/rdf-schema#comment>":{"type":"string", "ignore_malformed" : true},
+
+			"<http://purl.org/dc/terms/title>":{"type": "string", "ignore_malformed" : true},
+			"<http://purl.org/dc/terms/publisher>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true},
+			"<http://purl.org/dc/terms/created>":{"type": "date", "format": "dateOptionalTime", "ignore_malformed" : true},
+
+			"<http://dkm.fbk.eu/ontologies/newsreader#modules>":{
+				"type": "object",
+				"dynamic" : "strict",
+				"properties":{
+					"ID":{"type":"string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"} },
+					"<http://purl.org/dc/terms/title>":{"type":"string" },
+					"<http://dkm.fbk.eu/ontologies/newsreader#version>":{"type":"string", "index":"no", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true}
+				}
+			},
+
+			"<http://purl.org/dc/terms/source>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			"<http://purl.org/dc/terms/spatial>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			"<http://purl.org/dc/terms/subject>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			"<http://purl.org/dc/terms/language>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			"<http://purl.org/dc/terms/identifier>":{"type":"string" },
+			"<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>":{"type": "string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			
+			"<http://dkm.fbk.eu/ontologies/newsreader#location>":{"type":"string" },
+			"<http://dkm.fbk.eu/ontologies/newsreader#publisher>":{"type":"string" },
+			"<http://dkm.fbk.eu/ontologies/newsreader#section>":{"type":"string" },
+			"<http://dkm.fbk.eu/ontologies/newsreader#magazine>":{"type":"string" },
+			"<http://purl.org/dc/terms/creator>":{"type":"string" },
+
+			"<http://dkm.fbk.eu/ontologies/newsreader#originalFileName>":{"type":"string", "ignore_malformed" : true },
+			"<http://dkm.fbk.eu/ontologies/newsreader#originalFileFormat>":{"type":"string", "ignore_malformed" : true },
+			"<http://dkm.fbk.eu/ontologies/newsreader#originalPages>":{"type":"integer", "ignore_malformed" : true },			
+			"<http://dkm.fbk.eu/ontologies/newsreader#version>":{"type":"string", "ignore_malformed" : true },				
+			"<http://dkm.fbk.eu/ontologies/newsreader#layer>":{"type":"string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			"<http://dkm.fbk.eu/ontologies/newsreader#annotatedWith>":{"type":"string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			"<http://dkm.fbk.eu/ontologies/knowledgestore#hasMention>":{"type":"string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true },
+			"<http://dkm.fbk.eu/ontologies/newsreader#annotationOf>":{"type":"string", "index": "not_analyzed", "norms": {"enabled": false}, "fielddata": {"format": "fst"}, "ignore_malformed" : true }	
+		}
+	}
+}

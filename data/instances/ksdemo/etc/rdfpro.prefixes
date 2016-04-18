@@ -1,0 +1,15 @@
+#
+# Add below your custom namespace/prefix bindings
+# (they will override RDFpro builtin ones, in case of clash)
+# 
+# line format: namespaceURI prefix1 prefix2 ...
+# example:     http://dbpedia.org/ontology/ dbo dbpediaowl dbpo
+#
+http://groundedannotationframework.org/gaf# gaf
+http://www.newsreader-project.eu/ontologies/framenet/ framenet
+http://www.newsreader-project.eu/ontologies/nombank/ nombank
+http://www.newsreader-project.eu/ontologies/propbank/ propbank
+http://www.newsreader-project.eu/ontologies/verbnet/ verbnet
+http://globalwordnet.org/ili/ ili
+http://dkm.fbk.eu/ontologies/knowledgestore-runtime# ksr
+

@@ -1,0 +1,133 @@
+bootstrap.mlockall: true
+
+########################### PATHS ###################################
+
+path.data: /data/instances/ksdemo/var/data
+path.logs: /data/instances/ksdemo/log
+
+#the paths of the mapping are under index
+#the paths of compression settings are under uri_handler
+
+########################### CLUSTER ###################################
+
+#cluster where the node will join.
+cluster.name: cluster-ks-demo
+
+
+########################### NODE SETTINGS ###################################
+
+#set the node's name
+node.name: ksDemoNode
+
+#can this node manage the shards allocation
+#node.master: true
+
+#can this node store shards
+#node.data: true
+
+#how much memory to use for indexing buffer
+#memory.index_buffer_size: 10%
+
+#set the initial nodes for transportClient (connect to remote nodes), if not setted the system will start a node on the local machine.
+#transport.client.initial_nodes: lauper.fbk.eu:50002
+
+#sniff for find other nodes. Only for transportClient
+#client.transport.sniff: true
+
+#https://www.elastic.co/guide/en/elasticsearch/reference/current/disk.html
+
+############################# DISCOVERY ###################################
+
+#minimum amount of master-eligible (node.master=true) nodes that should be connected to each other in order to form a cluster (look at split-brain problem)
+#discovery.zen.minimum_master_nodes: 1
+
+# Disable multicast ping for find other ES instance.
+#discovery.zen.ping.multicast.enabled: false
+
+# two local servers started within the same JVM will discover themselves and form a cluster.
+#node.local: true 
+
+
+########################### FILTER CACHE ###################################
+
+#let the default type: node filter cache -> shared across all the indices allocated on a single node. The other type is index filter cache.
+
+#specify the filter cache size (exact value or percentage of the memory)
+indices.cache.filter.size: 40%
+
+#for how much time keep the data in cache
+#indices.cache.filter.expire: 1h 
+
+
+########################### STORE ###################################
+
+#set which store type to use
+index.store.type: mmapfs
+
+
+########################### INDEX ###################################
+
+#index buffer max and min size (memory used for indexing purpposes)
+#indices.memory.index_buffer_size: 10%
+#indices.memory.min_shard_index_buffer_size: 4mb
+
+#how often the data view is refreshed, -1 disabled.
+index.refresh_interval: -1
+
+#set the number of shards of an index
+index.number_of_shards: 5
+
+#set the number of replicas of an index
+index.number_of_replicas: 1
+
+
+#path for the mapping of the mention type
+index.mapping.mention: /data/instances/ksdemo/etc/mention_mapping
+
+#path for the mapping of the resource type
+index.mapping.resource: /data/instances/ksdemo/etc/resource_mapping
+
+#name of the index
+index.name: eu.fbk.dkm.elasticindex
+
+#ignore malformed fields, if true only the malformed field will be discarded, not all the document
+index.mapping.ignore_malformed: true
+
+########################### BULK ###################################
+
+#bulk timeout in milliseconds, if not set will keep the default (1 min)
+bulk.timeout: 600000
+
+#bulk max size (bytes), if not set will keep the default
+bulk.size: 2048576
+
+#bulk flushing interval in milliseconds,if not set will keep the default (1 min)
+bulk.interval: 60000
+
+#number of concurrent requests, if set to -1 will keep the default
+bulk.concurrent_requests: -1
+
+########################### SCROLL ###################################
+
+#timeout between the request of a scroll page and the next one.
+scroll.timeout : 60000
+
+########################### THREAD POOL ###################################
+
+#type of threadpool: fixed -> fixed size with a queue for the requests; cache -> new thread for every incoming request.
+#there are many threadpools: index, search, suggest, get, bulk, percolate.
+#example:
+#threadpool.index.type: fixed
+#threadpool.index.size: 100
+#threadpool.index.queue_size: 500
+
+
+#see multicast/unicast, gateway, recovery options, field data cache, circuit breaker.
+
+########################### URI HANDLER ###################################
+#the files must contain 1 URI (namespace) for every line.
+#set of namespace to compress weakly.
+uri_handler.weakcompression_path:  /data/instances/ksdemo/etc/weak_compression
+
+#set of namespace, for each namespace every value found will be compressed. 
+uri_handler.strongcompression_path: /data/instances/ksdemo/etc/strong_compression

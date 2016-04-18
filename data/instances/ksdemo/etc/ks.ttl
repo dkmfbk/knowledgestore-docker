@@ -1,0 +1,237 @@
+@prefix : <java:> .
+
+<obj:launcher>
+    :threadCount 32 ;
+    :threadName "ks-%d" ;
+    :logConfig "/data/instances/ksdemo/etc/ks.log.xml" ;
+    :component <obj:httpServer> .
+
+<obj:httpServer>
+    a <java:eu.fbk.knowledgestore.server.http.HttpServer#builder> ;
+#    :logConfigLocation "/data/instances/ksdemo/etc/ks.loghttp.xml" ;
+    :logConfigLocation "ks.loghttp.xml" ;
+    :delegate <obj:server> ;
+    :host "0.0.0.0" ;
+    :httpPort 9053 ;
+    :httpsPort 9054 ;
+    :path "/" ;
+    :acceptors 4 ;
+    :selectors 4 ;
+    :debug false ;
+    :customConfigs [
+    	a <java:eu.fbk.knowledgestore.server.http.CustomConfig> ;
+    	:name "naf2sem" ;
+    	:command "@naf2sem -b /data/instances/ksdemo/var/backup-naf2sem/ -k http://localhost:9053/ -o /data/instances/ksdemo/etc/ESO_Version2.owl"
+    ] ;
+    :keystoreConfig [
+        a <java:eu.fbk.knowledgestore.server.http.KeystoreConfig> ;
+        :location "/data/instances/ksdemo/etc/ks.jks" ;
+        :password "kspass" ;
+        :type "jks"
+    ] ;
+    :securityConfig [
+        a <java:eu.fbk.knowledgestore.server.http.SecurityConfig> ;
+        :realm "KnowledgeStore" ;
+        :userdbLocation "/data/instances/ksdemo/etc/ks.userdb" ;
+        :anonymousRoles "sparql_reader" , "crud_reader" , "downloader" , "writer" , "ui_user" 
+    ] ;
+    :uiConfig <obj:uiConfig> .
+
+<obj:server>
+    a <java:eu.fbk.knowledgestore.server.Server#builder> ;
+    :fileStore <obj:fileStore> ;
+    :dataStore <obj:dataStore> ;
+    :tripleStore <obj:tripleStore> ;
+    :chunkSize 1024 ;
+    :bufferSize 16777216 .
+    
+<obj:fileStore>
+    a <java:eu.fbk.knowledgestore.filestore.LoggingFileStore> ;
+    :delegate [
+        a <java:eu.fbk.knowledgestore.filestore.MultiFileStore> ;
+        :bucketSize 100 ;
+        :delegate [
+            a <java:eu.fbk.knowledgestore.filestore.GzippedFileStore> ;
+            :compressionLevel 9 ;
+            :bufferSize 512 ;
+            :delegate [
+                 a <java:eu.fbk.knowledgestore.filestore.HadoopFileStore> ;
+                :fileSystem <obj:fileSystem> ;
+                :path "files"
+            ]
+        ]
+    ] .
+
+<obj:dataStore>
+    a <java:eu.fbk.knowledgestore.datastore.SynchronizedDataStore> ;
+    :synchronizerSpec "24:1" ;
+    :delegate [
+        a <java:eu.fbk.knowledgestore.datastore.CachingDataStore> ;
+        :delegate [
+            a <java:eu.fbk.knowledgestore.datastore.LoggingDataStore> ;
+            :delegate [
+                a <java:eu.fbk.knowledgestore.elastic.DataStoreElastic> ;
+                :path "/data/instances/ksdemo/etc/node_configuration.yml"
+            ]
+        ]
+    ] .
+
+<obj:tripleStore>
+    a <java:eu.fbk.knowledgestore.triplestore.SynchronizedTripleStore> ;
+    :synchronizerSpec "24:10" ;
+    :delegate [
+        a <java:eu.fbk.knowledgestore.triplestore.LoggingTripleStore> ;
+        :delegate [
+            a <java:eu.fbk.knowledgestore.triplestore.virtuoso.VirtuosoJdbcTripleStore> ;
+            :host "localhost" ;
+            :port "9051" ;
+            :username "dba" ;
+            :password "dba" ;
+            :fetchSize 200
+        ]
+    ] .       
+            
+<obj:fileSystem>
+    a <java:eu.fbk.knowledgestore.runtime.Files#getFileSystem> ;
+    :url "file:///data/instances/ksdemo/var" .
+
+<obj:uiConfig>
+    a <java:eu.fbk.knowledgestore.server.http.UIConfig#builder> ;
+    :resultLimit 1000 ;
+    :resourceOverviewProperties dcterms:created , dcterms:title ;
+    :mentionOverviewProperties rdf:type , nwr:eventClass , nwr:entityType , ks:refersTo ;
+    :denotedByProperty <http://groundedannotationframework.org/gaf#denotedBy> ;
+    :denotedByAllowsGraphs false ;
+    :refersToFunctional false ;
+    :mentionCategories [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "event" ;
+        :style "background-color: #CFE990" ;
+        :condition "rdf:type = \\nwr:EventMention" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "per" ;
+        :style "background-color: #FFC8C8" ;
+        :condition "rdf:type = \\nwr:ObjectMention and nwr:entityType = \\nwr:entity_type_person" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "org" ;
+        :style "background-color: #FFFF84" ;
+        :condition "rdf:type = \\nwr:ObjectMention and nwr:entityType = \\nwr:entity_type_organization" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "loc" ;
+        :style "background-color: #A9C5EB" ;
+        :condition "rdf:type = \\nwr:ObjectMention and nwr:entityType = \\nwr:entity_type_location" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "fin" ;
+        :style "background-color: #EEBBEE" ;
+        :condition "rdf:type = \\nwr:ObjectMention and nwr:entityType = \\nwr:entity_type_money" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "pro" ;
+        :style "background-color: #D0C58C" ;
+        :condition "rdf:type = \\nwr:ObjectMention and nwr:entityType = \\nwr:entity_type_percent" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "mix" ;
+        :style "background-color: #A0A0A0" ;
+        :condition "rdf:type = \\nwr:ObjectMention and nwr:entityType = \\nwr:entity_type_misc" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "artifact" ;
+        :style "background-color: #FFC65B" ;
+        :condition "rdf:type = \\nwr:ObjectMention and nwr:entityType = \\nwr:entity_type_artifact" ;
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "other" ;
+        :style "background-color: #E0E0E0" ;
+        :condition "rdf:type = \\nwr:ObjectMention and count(nwr:entityType) = 0" ;
+# Temporarily disabled 
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Category> ;
+        :label "time" ;
+        :style "background-color: #B4D1B6" ;
+        :condition "rdf:type = \\nwr:TimeMention" ;
+    ] ;
+    :lookupExamples [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Example> ;
+        :label "News resource" ;
+        :value "http://www.newsreader-project.eu/data/cars/2004/10/18/4DKT-30W0-00S0-W39B.xml"
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Example> ;
+        :label "NAF resource" ;
+        :value "http://www.newsreader-project.eu/data/cars/2004/10/18/4DKT-30W0-00S0-W39B.xml.naf"
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Example> ;
+        :label "Mention" ;
+        :value "http://www.newsreader-project.eu/data/cars/2004/10/18/4DKT-30W0-00S0-W39B.xml#char=1667,1679"
+    ] ;
+    :sparqlExamples [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Example> ;
+        :label "Count all triples" ;
+        :value "SELECT (COUNT(*) AS ?n) { ?s ?p ?o  }" 
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Example> ;
+        :label "Retrieve 10 events" ;
+        :value "SELECT ?s WHERE {?s rdf:type sem:Event} LIMIT 10"
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Example> ;
+        :label "X-ray of an event" ;
+        :value """
+        SELECT ?s ?p ?o ?g
+		WHERE {
+			 VALUES ?event { <http://www.newsreader-project.eu/data/cars/2007/09/23/4PS0-56R0-TX4F-5151.xml#ev28> }
+			 {
+				   GRAPH ?g { ?event rdf:type ?o . }
+				   BIND (?event as ?s)
+				   BIND (rdf:type as ?p)
+				   FILTER (STRSTARTS(STR(?o), "http://www.newsreader-project.eu/domain-ontology"))
+
+			 }
+			 UNION
+			 {
+					GRAPH ?g { ?event ?p ?o . }
+					BIND (?event as ?s)
+					FILTER (STRSTARTS(STR(?p), "http://www.newsreader-project.eu/domain-ontology"))
+			 }
+			 UNION
+			 {
+					GRAPH ?g { ?event ?p ?o . }
+					BIND (?event as ?s)
+					FILTER (?p = sem:hasPlace || ?p = sem:hasTime)
+			 }
+			 UNION
+			 {
+				   ?event eso:hasPreSituation ?g
+				   GRAPH ?g { ?s ?p ?o . }
+			 }
+			 UNION
+			 {
+				   ?event eso:hasPostSituation ?g
+				   GRAPH ?g { ?s ?p ?o . }
+			 }   
+			 UNION
+			 {
+				   ?event eso:hasDuringSituation ?g
+				   GRAPH ?g { ?s ?p ?o . }
+			 }   
+		}
+        """
+    ] , [
+        a <java:eu.fbk.knowledgestore.server.http.UIConfig$Example> ;
+        :label "Show hiring events of a company" ;
+        :value """
+SELECT DISTINCT ?event ?event_label ?year ?month ?day
+WHERE {
+    ?event a sem:Event, eso:JoiningAnOrganization .
+    ?event rdfs:label ?event_label .
+    ?event eso:employment-employer dbpedia:Kia_Motors .
+    ?event sem:hasTime ?time .
+    ?time owltime:inDateTime ?time_owl .
+    ?time_owl owltime:year ?year; owltime:month ?month; owltime:day ?day .
+}
+ORDER BY ?year ?month ?day
+        """         
+    ] .
