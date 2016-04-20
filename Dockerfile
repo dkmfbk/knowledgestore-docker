@@ -1,5 +1,5 @@
 ############################################################
-# Dockerfile to run KnowledgeStore 1.8 Containers
+# Dockerfile to run KnowledgeStore 1.8.1 Containers
 # Based on Centos / RedHat Image
 ############################################################
 
@@ -27,31 +27,47 @@ RUN mkdir /data && mkdir /data/software
 VOLUME /data/instances /data/scripts /data/additional_data
 
 
-#Download KS software
-RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/ks-software.tar.gz" && \
-tar --no-same-owner -xvzf ks-software.tar.gz && \
-rm -f ks-software.tar.gz
+#binaries of virtuoso are in /data/software/virtuoso/bin
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/virtuoso-7.2.0.1.tar.gz" && \
+tar --no-same-owner -xvzf virtuoso-7.2.0.1.tar.gz && \
+rm -f virtuoso-7.2.0.1.tar.gz && \
 
-##binaries of virtuoso are in /data/software/virtuoso/bin
-#RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/virtuoso-7.2.0.1.tar.gz" && \
-#tar --no-same-owner -xvzf virtuoso-7.2.0.1.tar.gz && \
-#rm -f virtuoso-7.2.0.1.tar.gz && \
-#mv 7.2.0.1 virtuoso
-#
-##binaries of ks are in /data/software/knowledgestore/bin
-#RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/ks-1.8.tar.gz" && \
-#tar --no-same-owner -xvzf ks-1.8.tar.gz && \
-#rm -f ks-1.8.tar.gz
-#
-##binaries of rdfpro are in /data/software/rdfpro
-#RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/rdfpro-0.5.1.tar.gz" && \
-#tar --no-same-owner -xvzf rdfpro-0.5.1.tar.gz && \
-#rm -f rdfpro-0.5.1.tar.gz
-#
-##binaries of newsreader-tools are in /data/software/newsreader-tools
-#RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/newsreader-tools-1.0.tar.gz" && \
-#tar --no-same-owner -xvzf newsreader-tools-1.0.tar.gz && \
-#rm -f newsreader-tools-1.0.tar.gz
+#binaries of ks are in /data/software/knowledgestore/bin
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/ks-1.8.1.tar.gz" && \
+tar --no-same-owner -xvzf ks-1.8.1.tar.gz && \
+rm -f ks-1.8.1.tar.gz
+
+#binaries of rdfpro are in /data/software/rdfpro
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/rdfpro-0.5.1.tar.gz" && \
+tar --no-same-owner -xvzf rdfpro-0.5.1.tar.gz && \
+rm -f rdfpro-0.5.1.tar.gz
+
+#binaries of newsreader-tools are in /data/software/newsreader-tools
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/newsreader-tools-1.0.tar.gz" && \
+tar --no-same-owner -xvzf newsreader-tools-1.0.tar.gz && \
+rm -f newsreader-tools-1.0.tar.gz
+
+#binaries of coreutils are in /data/software/coreutils/bin
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/coreutils.tar.gz" && \
+tar --no-same-owner -xvzf coreutils.tar.gz && \
+rm -f coreutils.tar.gz
+
+#binaries of coreutils are in /data/software/lz4
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/lz4.tar.gz" && \
+tar --no-same-owner -xvzf lz4.tar.gz && \
+rm -f lz4.tar.gz
+
+#binaries of coreutils are in /data/software/pbzip2
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/pbzip2.tar.gz" && \
+tar --no-same-owner -xvzf pbzip2.tar.gz && \
+rm -f pbzip2.tar.gz
+
+#binaries of coreutils are in /data/software/pigz
+RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/pigz.tar.gz" && \
+tar --no-same-owner -xvzf pigz.tar.gz && \
+rm -f pigz.tar.gz
+
+
 
 # Expose ports.
 #   - 9051: Virtuoso
