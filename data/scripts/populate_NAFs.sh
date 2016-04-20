@@ -12,5 +12,5 @@ NAFPATH=$(realpath "$1")
 echo "time /data/software/knowledgestore/bin/ksnaf.sh -u http://localhost:9053/ -r -d $NAFPATH"
 (cd /data/software/knowledgestore/bin && ./ksnaf.sh -u http://localhost:9053/ -r -d $NAFPATH)
 
-echo "running supervisorctl start ksdemo-ks"
-#supervisorctl start ksdemo-ks
+echo "running supervisorctl restart ksdemo-v"
+supervisorctl restart ksdemo-v

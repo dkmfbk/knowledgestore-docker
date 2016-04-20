@@ -18,7 +18,7 @@ RUN echo 'root:password' | chpasswd
 #RUN groupadd ksusers && useradd ks -g ksusers -s /bin/bash -m && echo 'ks:password' | chpasswd
 
 #install supervisor
-ADD supervisord.conf /etc/supervisord.conf
+ADD data/supervisord.conf /etc/supervisord.conf
 RUN easy_install supervisor
 
 #create folders for virtuoso and ks
@@ -30,7 +30,7 @@ VOLUME /data/instances /data/scripts /data/additional_data
 #binaries of virtuoso are in /data/software/virtuoso/bin
 RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/virtuoso-7.2.0.1.tar.gz" && \
 tar --no-same-owner -xvzf virtuoso-7.2.0.1.tar.gz && \
-rm -f virtuoso-7.2.0.1.tar.gz && \
+rm -f virtuoso-7.2.0.1.tar.gz 
 
 #binaries of ks are in /data/software/knowledgestore/bin
 RUN cd /data/software  && wget "http://knowledgestore.fbk.eu/files/vm/ks-1.8.1.tar.gz" && \
@@ -77,7 +77,7 @@ EXPOSE 22 9051 9053
 
 
 #extend PATH
-RUN echo "PATH=$PATH:/data/software/virtuoso/bin:/data/software/knowledgestore/bin:/data/software/rdfpro:/data/software/newsreader-tools:/data/scripts" >> /root/.bash_profile
+RUN echo "PATH=$PATH:/data/software/virtuoso/bin:/data/software/knowledgestore/bin:/data/software/rdfpro:/data/software/pbzip2:/data/software/coreutils/bin:/data/software/pigz:/data/software/newsreader-tools:/data/scripts" >> /root/.bash_profile
 RUN echo "export PATH" >> /root/.bash_profile
 
 CMD ["/usr/bin/supervisord"]
