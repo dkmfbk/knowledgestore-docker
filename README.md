@@ -37,8 +37,8 @@ Next we describe a tipycal NewsReader (http://www.newsreader-project.eu) Knowled
 
 First of all, you have to populate the RDF background knowledge, which can be downloaded from here:
 
-* DBpedia 2015.4 (size: 1.3Gb): http://knowledgestore.fbk.eu/files/vm/dbpedia2015en_allForKS.tql.gz
-* ESO v2.0 (size: 40Kb) : http://knowledgestore.fbk.eu/files/vm/ESO_v2_all_forKS.tql.gz
+* DBpedia 2015.4 (size: 1.3Gb): http://knowledgestore.fbk.eu/files/vm/bk/dbpedia2015en_allForKS.tql.gz
+* ESO v2.0 (size: 40Kb) : http://knowledgestore.fbk.eu/files/vm/bk/ESO_v2_all_forKS.tql.gz
 
 We suggest to move these files in the **`data/additional_data`** subfolder.
 
@@ -56,16 +56,16 @@ We show the population of content NAFs and RDF with a concrete example, populati
 First of all, download the required files and place them in the **`data/additional_data`** subfolder:
 
 * NAFs (size: 754Mb - 19,775 NAF files): http://knowledgestore.fbk.eu/files/vm/wikinews/NAFs.tar.gz
-* RDF (size: 194Mb): http://knowledgestore.fbk.eu/files/vm/wikinews/RDF.trig.gz (here we assume to have a single trig file. If not, you can build a single trig file from a tar.gz archive containing many trig files -potentially stored in nested subfolders- with a command like **`tar -O -xf original_trigs.tgz | pigz -9 - > RDF.trig.gz`**)
+* RDF (size: 353Mb - ~32M quads): http://knowledgestore.fbk.eu/files/vm/wikinews/RDF.trig.gz (here we assume to have a single trig file. If not, you can build a single trig file from a tar.gz archive containing many trig files -potentially stored in nested subfolders- with a command like **`tar -O -xf original_trigs.tgz | pigz -9 - > RDF.trig.gz`**)
 
 Extract the NAFs files in a separate folder:
 - **`mkdir -p NAFs && tar -zxf NAFs.tar.gz -C NAFs/`**
 
 To start the NAF population, type **`populate_NAFs.sh /data/additional_data/NAFs/`**.
-You can periodically check the population status by accesing **`http://localhost:50053/resources/count?condition=rdf%3atype%3d%5cnwr%3aNews`**, which basically counts the number of News articles contained in the KnowledgeStore.
-At the end of the NAF population (), the KnowledgeStore is automatically restarted.
+You can periodically check the population status by accesing **`http://localhost:50053/resources/count?condition=rdf%3atype%3d%5cnwr%3aNAFDocument`**, which basically counts the number of NAF files contained in the KnowledgeStore.
+At the end of the NAF population (on an average specs machine, it should take under 2 hours), the KnowledgeStore is automatically restarted.
 
-Before populating the RDF trig file, some procssing (including ESO reasoning) has to be performed. Invoke the script **`prepareRDF4Virtuoso.sh RDF.trig.gz all.tql.gz`**. At the end, you will get a gzipped tql file ready to be uploaded into the KnowledgeStore as follow: **`populate_tql_gz.sh all.tql.gz`**. Again, you can check the population status by firing the count triples query above. Once done, the KnowledgeStore is automatically restarted.
+Before populating the RDF trig file, some processing (e.g., deduplication, ESO reasoning) has to be performed. Invoke the script **`prepareRDF4Virtuoso.sh RDF.trig.gz all.tql.gz`**. At the end, you will get a gzipped tql file ready to be uploaded into the KnowledgeStore as follow: **`populate_tql_gz.sh all.tql.gz`**. Again, you can check the population status by firing the count triples query above. Once done, the KnowledgeStore is automatically restarted.
 
 To compute statistics on the populated KnowledgeStore, you can run the script **`mkdir -p /data/additional_data/stats/ && computeStats.sh /data/additional_data/stats/`**. The resulting statistics will be created in folder **`/data/additional_data/stats/`**.
 
