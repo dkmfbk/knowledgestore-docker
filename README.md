@@ -42,11 +42,11 @@ First of all, you have to populate the RDF background knowledge, which can be do
 
 We suggest to move these files in the **`data/additional_data`** subfolder.
 
-Then, after logging into the container, run **`populate_tql_gz.sh /data/additional_data/dbpedia2015en_allForKS.tql.gz`** (if different, change the path of dbpedia2015en_allForKS.tql.gz appropriately). The polulation will start (wait for the script to terminate). Depending on the hardware, time may vary (on an average specs desktop, it may take around 15 minutes).
-You can check the _growing_ of the RDf triples in the knowledgestore by periodically accessing **`http://localhost:50053/ui?action=sparql&query=SELECT+%28COUNT%28*%29+AS+%3Fn%29+%7B+%3Fs+%3Fp+%3Fo++%7D&timeout=`**, which basically fires a count triples query.
-When done, the Virtuso component of the KnowledgeStore will be automatically restarted. Wait for the KnowledgeStore to be up again (e.g., run again the count query) before any further activity.
+Then, after logging into the container, run **`populate_tql_gz.sh /data/additional_data/dbpedia2015en_allForKS.tql.gz`** (if different, change the path of dbpedia2015en_allForKS.tql.gz appropriately). The population will start (wait for the script to terminate). Depending on the hardware, time may vary (on an average specs desktop, it may take around 15 minutes).
+You can watch the number of triples in the knowledgestore _growing_ by periodically accessing **`http://localhost:50053/ui?action=sparql&query=SELECT+%28COUNT%28*%29+AS+%3Fn%29+%7B+%3Fs+%3Fp+%3Fo++%7D&timeout=`**, which basically fires a count triples query.
+When done, the Virtuoso component of the KnowledgeStore will be automatically restarted. Wait for the KnowledgeStore to be up again (e.g., run again the count query) before any further activity.
 
-Similarly, populate the ESO ontology by running **`populate_tql_gz.sh /data/additional_data/dbpedia2015en_allForKS.tql.gz`** (same considerations as for the DBpedia population). Should end in few seconds (~30 seconds).
+Similarly, populate the ESO ontology by running **`populate_tql_gz.sh /data/additional_data/ESO_v2_all_forKS.tql.gz`** (same considerations as for the DBpedia population). Should end in few seconds (~30 seconds).
 
 
 Now, the KnowledgeStore is ready to be populated with NAFs and RDF triples extracted from text. [At this point, it may be good make a backup copy of the virtuoso DB. This copy can be used to avoid the re-population from scratch of the background knowledge content when populating the KnowledgeStore with new content. First, stop the KnowledgeStore running the script **`stop_ks.sh`**. Then, just copy (and maybe gzip) with **`cp`** the file in **``data/instances/ksdemo/var/db/virtuoso.db`**. When done, start again the KnowledgeStore with **`start_ks.sh`**]
