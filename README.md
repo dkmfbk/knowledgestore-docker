@@ -15,9 +15,9 @@ This will create a Docker image named **`ks`**.
 
 ### 2. Starting the container
 
-To start the contained, simply run **`./start_ks_container.sh`**. This script will run a docker container named **`ks-demo`** based on the **`ks`** image, sharing some of the folders under **`data`**, and exposing some the KnowledgeStore services on host ports 50022 (sshd), 50051 (virtuoso), and 50053 (knowledgestore). If these ports are closed on the host system, changed them as appropriate.
+To start the container, simply run **`./start_ks_container.sh`**. This script will run a docker container named **`ks-demo`** based on the **`ks`** image, sharing some of the folders under **`data`**, and exposing some the KnowledgeStore services on host ports 50022 (sshd), 50051 (virtuoso), and 50053 (knowledgestore). If these ports are closed on the host system, change them as appropriate.
 
-You can check if the KnowledgeStore is propertly running by accessing its User Interface at **`http://localhost:50053/ui`**.
+You can check if the KnowledgeStore is properly running by accessing its User Interface at **`http://localhost:50053/ui`**.
 
 ### 3. Logging-in into the docker container
 
