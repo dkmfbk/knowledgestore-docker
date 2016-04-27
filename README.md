@@ -3,7 +3,7 @@
 
 ### 0. Background on Docker
 
-The Docker daemon uses Linux-specific kernel features, and runs natively in linux based systems. On OS X and Windows, docker will be run inside a linux-based Virtual Machine, therefore some changes on the settings of the Virtual Machine may be needed to adjust the memory and disk space allcoated based on the quantity of data to be populated into the KS. For 20K documents, we suggest to allocate at least 16GB of RAM and 20GB of disk.
+The Docker daemon uses Linux-specific kernel features, and runs natively in linux based systems. On OS X and Windows, docker will be run inside a linux-based Virtual Machine, therefore some changes on the settings of the Virtual Machine may be needed to adjust the memory and disk space allocated based on the quantity of data to be populated into the KS. For 20K documents, we suggest to allocate at least 16GB of RAM and 20GB of disk.
 
 RAM-wise, this KnowledgeStore is pre-configured so that Virtuoso can use 12GB of RAM. This configuration can be changed in the **`data/instances/ksdemo/etc/virtuoso.ini`** file (see _NumberOfBuffers_ and _MaxDirtyBuffers_ variables. Check the Virtuoso documentation for more details.)
 
@@ -70,5 +70,3 @@ Before populating the RDF trig file, some processing (e.g., deduplication, ESO r
 To compute statistics on the populated KnowledgeStore, you can run the script **`mkdir -p /data/additional_data/stats/ && computeStats.sh /data/additional_data/stats/`**. The resulting statistics will be created in folder **`/data/additional_data/stats/`**.
 
 To wipe all the data in a populated KnowledgeStore, simply run the script **`stop_and_clean_ks.sh`**. Once done, restart the KnowledgeStore with **`start_ks.sh`**.
-
-
