@@ -35,7 +35,7 @@ Within the docker container, you can do several tasks related to the KnowledgeSt
 * compute statistics
 * run RDFpro to process RDF files
 
-Next we describe a tipycal NewsReader (http://www.newsreader-project.eu) KnowledgeStore population cycle.
+Next we describe a typical NewsReader (http://www.newsreader-project.eu) KnowledgeStore population cycle.
 
 ### 4. Populating the KnowledgeStore (Newsreader version)
 
@@ -66,7 +66,7 @@ Extract the NAFs files in a separate folder:
 - **`mkdir -p NAFs && tar -zxf NAFs.tar.gz -C NAFs/`**
 
 To start the NAF population, type **`populate_NAFs.sh /data/additional_data/NAFs/`**.
-You can periodically check the population status by accesing **`http://localhost:50053/resources/count?condition=rdf%3atype%3d%5cnwr%3aNAFDocument`**, which basically counts the number of NAF files contained in the KnowledgeStore.
+You can periodically check the population status by accessing **`http://localhost:50053/resources/count?condition=rdf%3atype%3d%5cnwr%3aNAFDocument`**, which basically counts the number of NAF files contained in the KnowledgeStore.
 At the end of the NAF population (on an average specs machine, it should take under 2 hours), the KnowledgeStore is automatically restarted.
 
 Before populating the RDF trig file, some processing (e.g., deduplication, ESO reasoning) has to be performed. Invoke the script **`prepareRDF4Virtuoso.sh RDF.trig.gz all.tql.gz`**. At the end, you will get a gzipped tql file ready to be uploaded into the KnowledgeStore as follow: **`populate_tql_gz.sh all.tql.gz`**. Again, you can check the population status by firing the count triples query above. Once done, the KnowledgeStore is automatically restarted.
