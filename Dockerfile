@@ -3,8 +3,14 @@
 # Based on Centos / RedHat Image
 ############################################################
 
-# Set the base image to use to Ubuntu
+# Set the base image to use
 FROM centos:7.2.1511
+#Swithc to "FROM centos" instead of "FROM centos:7.2.1511" if you get the folling error:
+#Failed:
+#  iputils.x86_64 0:20121221-7.el7        iputils.x86_64 0:20160308-8.el7       
+# Complete!
+#The command '/bin/sh -c yum -y update && yum clean all && yum -y install autoconf automake libtool flex bison gperf git openssl-devel readline-devel wget java-1.8.0-openjdk.x86_64 python-setuptools initscripts openssh openssh-server openssh-clients sudo passwd sed screen tmux byobu which vim-enhanced' returned a non-zero code: 1
+
 
 RUN yum -y update && yum clean all && yum -y install autoconf automake libtool flex bison gperf git openssl-devel readline-devel wget java-1.8.0-openjdk.x86_64 python-setuptools initscripts openssh openssh-server openssh-clients sudo passwd sed screen tmux byobu which vim-enhanced
 
