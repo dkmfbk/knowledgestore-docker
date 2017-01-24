@@ -5,7 +5,7 @@
 
 # Set the base image to use
 FROM centos:7.2.1511
-#Swithc to "FROM centos" instead of "FROM centos:7.2.1511" if you get the folling error:
+#Switch to "FROM centos" instead of "FROM centos:7.2.1511" if you get the folling error:
 #Failed:
 #  iputils.x86_64 0:20121221-7.el7        iputils.x86_64 0:20160308-8.el7       
 # Complete!
