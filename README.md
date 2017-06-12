@@ -13,6 +13,7 @@ Download the whole content of this directory. Besides, the dockerfile, it contai
 To build the KnowledgeStore container, simply run **`./build_ks_container.sh`**.
 This will create a Docker image named **`ks`**, based on the **`centos`** operating system image. These images will take around 1.1GB of disk space. You can remove them by calling **`docker rmi ks`** and then **`docker rmi centos:7.2.1511`** (make sure to remove any container based on these images, first - see below). 
 
+You will be able to access the docker container via ssh using some predefined credentials (user: root; password: password). Feel free to define more secure credentials editing the line `RUN echo 'root:password'` in the Dockerfile, replacing `password` with any string of your choice before runnning the **`./build_ks_container.sh`** script.
 
 ### 2. Starting the container
 
